@@ -1,7 +1,8 @@
-import { startOfHour } from 'date-fns';
+import { startOfHour } from "date-fns";
+import { getCustomRepository } from "typeorm";
 
-import Appointment from '../models/Appointment';
-import AppointmentsRepository from '../repositories/AppointmentsRepository';
+import Appointment from "../models/Appointment";
+import AppointmentsRepository from "../repositories/AppointmentsRepository";
 
 interface RequestDTO {
   provider: string;
@@ -9,27 +10,25 @@ interface RequestDTO {
 }
 
 class CreateAppointmentService {
-  private appointmentsRepository: AppointmentsRepository;
-  // Dependency Inversion
-  constructor(appointmentsRepository: AppointmentsRepository) {
-    this.appointmentsRepository = appointmentsRepository;
-  }
+  public async execute({ provider, date }: RequestDTO): Promise<Appointment> {
+    const appointmentsRepository = getCustomRepository(AppointmentsRepository);
 
-  public execute({ provider, date }: RequestDTO): Appointment {
     const appointmentDate = startOfHour(date);
 
-    const checkAppointmentDateTaken = this.appointmentsRepository.findByDate(
+    const checkAppointmentDateTaken = await appointmentsRepository.findByDate(
       appointmentDate
     );
 
     if (checkAppointmentDateTaken) {
-      throw Error("Date already booked.")
+      throw Error("Date already booked.");
     }
 
-    const appointment = this.appointmentsRepository.create({
+    const appointment = appointmentsRepository.create({
       provider,
-      date: appointmentDate
+      date: appointmentDate,
     });
+
+    await appointmentsRepository.save(appointment);
 
     return appointment;
   }

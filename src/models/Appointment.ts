@@ -1,15 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('appointments')
+@Entity("appointments")
 class Appointment {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column()
   provider: string;
 
-  @Column('timestamp with time zone')
-  date: Date
+  @Column("timestamp with time zone")
+  date: Date;
 }
 
 export default Appointment;
