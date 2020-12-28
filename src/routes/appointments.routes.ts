@@ -5,8 +5,11 @@ import { parseISO } from "date-fns"; // parseISO converts string to date
 import AppointmentsRepository from "../repositories/AppointmentsRepository";
 import CreateAppointmentService from "../services/CreateAppointmentService";
 
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+
 const appointmentsRouter = Router();
 
+appointmentsRouter.use(ensureAuthenticated);
 // Route: get request, call a method from other file to treat data, return a response
 
 appointmentsRouter.get("/", async (req, res) => {
