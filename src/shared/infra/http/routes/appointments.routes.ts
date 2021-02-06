@@ -2,7 +2,7 @@ import { Router } from "express";
 import { getCustomRepository } from "typeorm";
 import { parseISO } from "date-fns"; // parseISO converts string to date
 
-import AppointmentsRepository from "../../modules/appointments/repositories/AppointmentsRepository";
+import AppointmentsRepository from "../../../../modules/appointments/repositories/AppointmentsRepository";
 import CreateAppointmentService from "../modules/users/services/CreateAppointmentService";
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
